@@ -4,7 +4,9 @@
 function Update {
     normal_1; echo "Updating installed packages and install prerequisite"
     normal_2
-    apt-get -qqy update && apt-get -qqy upgrade
+    if [ "$AUTO" != "y" ]; then
+        apt-get -qqy update && apt-get -qqy upgrade
+    fi
     apt-get -qqy install sudo sysstat htop curl psmisc python3-pyqt5
     cd $HOME
     tput sgr0; clear
@@ -13,7 +15,7 @@ function Update {
 ## qBittorrent
 function qBittorrent {
     warn_2
-    source <(wget -qO- https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent_install.sh)
+    source <(wget -qO- https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Torrent%20Clients/qBittorrent/qBittorrent_install.sh)
     qBittorrent_download
     qBittorrent_install
     qBittorrent_config
@@ -24,7 +26,7 @@ function qBittorrent {
 ## Deluge
 function Deluge {
     warn_2
-    source <(wget -qO- https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/Deluge_install.sh)
+    source <(wget -qO- https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Torrent%20Clients/Deluge/Deluge_install.sh)
     Deluge_download
     Deluge_install
     Deluge_config

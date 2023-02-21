@@ -61,29 +61,29 @@ function Scheduler_Tweaking {
     diskno=$(echo $disk | awk '{print NF}')
     while [ $i -le $diskno ]
     do
-	    device=$(echo $disk | awk -v i=$i '{print $i}')
-	    drive+=($device)
-	    i=$(( $i + 1 ))
+        device=$(echo $disk | awk -v i=$i '{print $i}')
+        drive+=($device)
+        i=$(( $i + 1 ))
     done
     i=1
     x=0
     disktype=$(cat /sys/block/sda/queue/rotational)
     if [ "${disktype}" == 0 ]; then
-	    while [ $i -le $diskno ]
-	    do
-		    diskname=$(eval echo ${drive["$x"]})
-		    echo kyber > /sys/block/$diskname/queue/scheduler
-		    i=$(( $i + 1 ))
-		    x=$(( $x + 1 ))
-	    done
+        while [ $i -le $diskno ]
+        do
+            diskname=$(eval echo ${drive["$x"]})
+            echo kyber > /sys/block/$diskname/queue/scheduler
+            i=$(( $i + 1 ))
+            x=$(( $x + 1 ))
+        done
     else
-	    while [ $i -le $diskno ]
-	    do
-		    diskname=$(eval echo ${drive["$x"]})
-		    echo mq-deadline > /sys/block/$diskname/queue/scheduler
-		    i=$(( $i + 1 ))
-		    x=$(( $x + 1 ))
-	    done
+        while [ $i -le $diskno ]
+        do
+            diskname=$(eval echo ${drive["$x"]})
+            echo mq-deadline > /sys/block/$diskname/queue/scheduler
+            i=$(( $i + 1 ))
+            x=$(( $x + 1 ))
+        done
     fi
 }
 
@@ -215,13 +215,13 @@ vm.swappiness = 10
 
 
 # NOTE: Difference in polling and interrupt
-#		-Interrupt: Interrupt is a hardware mechanism in which, the device notices the CPU that it requires its attention./
-#			Interrupt can take place at any time. So when CPU gets an interrupt signal trough the indication interrupt-request line,/
-#			CPU stops the current process and respond to the interrupt by passing the control to interrupt handler which services device.
-#	    -Polling: In polling is not a hardware mechanism, its a protocol in which CPU steadily checks whether the device needs attention./
-#			Wherever device tells process unit that it desires hardware processing, #in polling process unit keeps asking the I/O device whether or not it desires CPU processing./
-#			The CPU ceaselessly check every and each device hooked up thereto for sleuthing whether or not any device desires hardware attention.
-#	    The Linux kernel uses the interrupt-driven mode by default and only switches to polling mode when the flow of incoming packets exceeds "net.core.dev_weight" number of data frames
+#        -Interrupt: Interrupt is a hardware mechanism in which, the device notices the CPU that it requires its attention./
+#            Interrupt can take place at any time. So when CPU gets an interrupt signal trough the indication interrupt-request line,/
+#            CPU stops the current process and respond to the interrupt by passing the control to interrupt handler which services device.
+#        -Polling: In polling is not a hardware mechanism, its a protocol in which CPU steadily checks whether the device needs attention./
+#            Wherever device tells process unit that it desires hardware processing, #in polling process unit keeps asking the I/O device whether or not it desires CPU processing./
+#            The CPU ceaselessly check every and each device hooked up thereto for sleuthing whether or not any device desires hardware attention.
+#        The Linux kernel uses the interrupt-driven mode by default and only switches to polling mode when the flow of incoming packets exceeds "net.core.dev_weight" number of data frames
 # The maximum number of packets that kernel can handle on a NAPI interrupt, it's a Per-CPU variable
 #net.core.dev_weight = 64
 # Scales the maximum number of packets that can be processed during a RX softirq cycle. Calculation is based on dev_weight (dev_weight * dev_weight_rx_bias)
@@ -359,31 +359,31 @@ net.ipv4.tcp_ecn = 0
 # TCP buffer size
 # Values are measured in memory pages. Size of memory pages can be found by "getconf PAGESIZE". Normally it is 4096 bytes
 # Vector of 3 INTEGERs: min, pressure, max
-#	min: below this number of pages TCP is not bothered about its
-#	memory appetite.
+#    min: below this number of pages TCP is not bothered about its
+#    memory appetite.
 #
-#	pressure: when amount of memory allocated by TCP exceeds this number
-#	of pages, TCP moderates its memory consumption and enters memory
-#	pressure mode, which is exited when memory consumption falls
-#	under "min".
+#    pressure: when amount of memory allocated by TCP exceeds this number
+#    of pages, TCP moderates its memory consumption and enters memory
+#    pressure mode, which is exited when memory consumption falls
+#    under "min".
 #
-#	max: number of pages allowed for queuing by all TCP sockets
+#    max: number of pages allowed for queuing by all TCP sockets
 net.ipv4.tcp_mem = $tcp_mem
 
 # TCP sockets receive buffer
 # Vector of 3 INTEGERs: min, default, max
-#	min: Minimal size of receive buffer used by TCP sockets.
-#	It is guaranteed to each TCP socket, even under moderate memory
-#	pressure.
+#    min: Minimal size of receive buffer used by TCP sockets.
+#    It is guaranteed to each TCP socket, even under moderate memory
+#    pressure.
 #
-#	default: initial size of receive buffer used by TCP sockets.
-#	This value overrides net.core.rmem_default used by other protocols.
+#    default: initial size of receive buffer used by TCP sockets.
+#    This value overrides net.core.rmem_default used by other protocols.
 #
-#	max: maximal size of receive buffer allowed for automatically
-#	selected receiver buffers for TCP socket. This value does not override
-#	net.core.rmem_max.  Calling setsockopt() with SO_RCVBUF disables
-#	automatic tuning of that socket's receive buffer size, in which
-#	case this value is ignored.
+#    max: maximal size of receive buffer allowed for automatically
+#    selected receiver buffers for TCP socket. This value does not override
+#    net.core.rmem_max.  Calling setsockopt() with SO_RCVBUF disables
+#    automatic tuning of that socket's receive buffer size, in which
+#    case this value is ignored.
 net.ipv4.tcp_rmem = $tcp_rmem
 
 # Disable receive buffer auto-tuning
@@ -403,18 +403,18 @@ net.ipv4.tcp_adv_win_scale = 2
 
 # TCP sockets send buffer
 # Vector of 3 INTEGERs: min, default, max
-#	min: Amount of memory reserved for send buffers for TCP sockets.
-#	Each TCP socket has rights to use it due to fact of its birth.
+#    min: Amount of memory reserved for send buffers for TCP sockets.
+#    Each TCP socket has rights to use it due to fact of its birth.
 #
-#	default: initial size of send buffer used by TCP sockets.  This
-#	value overrides net.core.wmem_default used by other protocols.
-#	It is usually lower than net.core.wmem_default.
+#    default: initial size of send buffer used by TCP sockets.  This
+#    value overrides net.core.wmem_default used by other protocols.
+#    It is usually lower than net.core.wmem_default.
 #
-#	max: Maximal amount of memory allowed for automatically tuned
-#	send buffers for TCP sockets. This value does not override
-#	net.core.wmem_max.  Calling setsockopt() with SO_SNDBUF disables
-#	automatic tuning of that socket's send buffer size, in which case
-#	this value is ignored.
+#    max: Maximal amount of memory allowed for automatically tuned
+#    send buffers for TCP sockets. This value does not override
+#    net.core.wmem_max.  Calling setsockopt() with SO_SNDBUF disables
+#    automatic tuning of that socket's send buffer size, in which case
+#    this value is ignored.
 net.ipv4.tcp_wmem = $tcp_wmem
 
 
@@ -428,7 +428,7 @@ net.ipv4.tcp_max_reordering = 600
 
 # Number of times SYNACKs for a passive TCP connection attempt will be retransmitted
 net.ipv4.tcp_synack_retries = 10
-# Number of times initial SYNs for an active TCP connection attempt	will be retransmitted
+# Number of times initial SYNs for an active TCP connection attempt    will be retransmitted
 net.ipv4.tcp_syn_retries = 7
 
 # In seconds, time default value for connections to keep alive
@@ -439,7 +439,7 @@ net.ipv4.tcp_keepalive_probes = 15
 net.ipv4.tcp_keepalive_intvl = 60
 
 # Number of retries before killing a TCP connection
-# Time, after which TCP decides, that something is wrong due to unacknowledged RTO retransmissions,	and reports this suspicion to the network layer.
+# Time, after which TCP decides, that something is wrong due to unacknowledged RTO retransmissions,    and reports this suspicion to the network layer.
 net.ipv4.tcp_retries1 = 3
 # Time, after which TCP decides to timeout the TCP connection, when RTO retransmissions remain unacknowledged
 net.ipv4.tcp_retries2 = 10
@@ -512,7 +512,7 @@ function Tweaked_BBR {
     echo "deb http://deb.debian.org/debian bullseye-backports main" | sudo tee -a /etc/apt/sources.list
     apt-get -qqy update && apt -qqyt bullseye-backports upgrade
     fi
-    wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
+    wget https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Miscellaneous/BBR/BBR.sh && chmod +x BBR.sh
     ## Install tweaked BBR automatically on reboot
     cat << EOF > /etc/systemd/system/bbrinstall.service
 [Unit]

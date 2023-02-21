@@ -277,7 +277,7 @@ EOF
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/deluge.Userpass.py
     wget https://raw.githubusercontent.com/jerry048/Seedbox-Components/main/Torrent%20Clients/Deluge/deluge.addHost.py
     DWP=$(python2 /root/deluge.Userpass.py $password $DWSALT)
-	DUDID=$(python2 /root/deluge.addHost.py)
+    DUDID=$(python2 /root/deluge.addHost.py)
     cat << EOF >/home/$username/.config/deluge/web.conf
 {
   "file": 1,

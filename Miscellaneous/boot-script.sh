@@ -1,8 +1,8 @@
 #!/bin/sh
 
 function boot_script {
-	touch /etc/rc.local && chmod +x /etc/rc.local
-	cat <<'EOF' > /etc/rc.local
+    touch /etc/rc.local && chmod +x /etc/rc.local
+    cat <<'EOF' > /etc/rc.local
 #!/bin/sh
 ## Network
 #NIC Config
@@ -27,30 +27,32 @@ disk=$(lsblk -nd --output NAME)
 diskno=$(echo $disk | awk '{print NF}')
 while [ $i -le $diskno ]
 do
-	device=$(echo $disk | awk -v i=$i '{print $i}')
-	drive+=($device)
-	i=$(( $i + 1 ))
+    device=$(echo $disk | awk -v i=$i '{print $i}')
+    drive+=($device)
+    i=$(( $i + 1 ))
 done
 i=1
 x=0
 disktype=$(cat /sys/block/sda/queue/rotational)
 if [ "${disktype}" == 0 ]; then
-	while [ $i -le $diskno ]
-	do
-		diskname=$(eval echo ${drive["$x"]})
-		echo kyber > /sys/block/$diskname/queue/scheduler
-		i=$(( $i + 1 ))
-		x=$(( $x + 1 ))
-	done
+    while [ $i -le $diskno ]
+    do
+        diskname=$(eval echo ${drive["$x"]})
+        echo kyber > /sys/block/$diskname/queue/scheduler
+        i=$(( $i + 1 ))
+        x=$(( $x + 1 ))
+    done
 else
-	while [ $i -le $diskno ]
-	do
-		diskname=$(eval echo ${drive["$x"]})
-		echo mq-deadline > /sys/block/$diskname/queue/scheduler
-		i=$(( $i + 1 ))
-		x=$(( $x + 1 ))
-	done
+    while [ $i -le $diskno ]
+    do
+        diskname=$(eval echo ${drive["$x"]})
+        echo mq-deadline > /sys/block/$diskname/queue/scheduler
+        i=$(( $i + 1 ))
+        x=$(( $x + 1 ))
+    done
 fi
+#Swap off
+swapoff -a
 clear
 exit 0
 EOF
