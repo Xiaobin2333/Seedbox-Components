@@ -10,7 +10,7 @@ distro_codename="$(source /etc/os-release && printf "%s" "${VERSION_CODENAME}")"
 if [[ $distro_codename = buster ]] && [[ $distro_codename = focal ]] && [[ $distro_codename = bionic ]] && [[ $distro_codename = stretch ]]; then
     wget https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
-elif [[ $distro_codename = bullseye ]] && [[ $distro_codename != jammy ]]; then
+elif [[ $distro_codename = bullseye ]] && [[ $distro_codename = jammy ]]; then
     wget https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Miscellaneous/BBR/5.15.0/tcp_bbrx.c
     kernel_ver=5.15.0
 fi
