@@ -7,7 +7,7 @@ cd $HOME
 apt-get -qqy install dkms
 apt-get -qqy install linux-headers-$(uname -r)
 distro_codename="$(source /etc/os-release && printf "%s" "${VERSION_CODENAME}")"
-if [[ $distro_codename = buster ]]&& [[ $distro_codename = focal ]]; then
+if [[ $distro_codename = buster ]]&& [[ $distro_codename = focal ]] && [[ $distro_codename = bionic ]]; then
     wget https://raw.githubusercontent.com/Xiaobin2333/Seedbox-Components/main/Miscellaneous/BBR/5.10.0/tcp_bbrx.c
     kernel_ver=5.10.0
 elif [[ $distro_codename = bullseye ]] && [[ $distro_codename != jammy ]]; then
